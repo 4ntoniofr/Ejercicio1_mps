@@ -1,5 +1,7 @@
 package org.example;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /*
@@ -50,8 +52,21 @@ public class Person {
      * @return
      * */
 
-    public double[] averageAgePerGender(List<Person> persons) {
-        return null;
+    public double[] averageAgePerGender(@NotNull List<Person> persons) {
+        double maleAgeSum = 0, femaleAgeSum = 0;
+        int maleCount = 0, femaleCount = 0;
+
+        for (Person person : persons) {
+            if (person.gender().equals("Male")) {
+                maleAgeSum += person.age();
+                maleCount++;
+            } else if (person.gender().equals("Female")) {
+                femaleAgeSum += person.age();
+                femaleCount++;
+            }
+        }
+
+        return new double[]{maleAgeSum / maleCount, femaleAgeSum / femaleCount};
     }
 
 }
