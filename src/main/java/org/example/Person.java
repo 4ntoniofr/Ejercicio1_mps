@@ -52,21 +52,33 @@ public class Person {
      * @return
      * */
 
-    public double[] averageAgePerGender(@NotNull List<Person> persons) {
-        double maleAgeSum = 0, femaleAgeSum = 0;
+    public double[] averageAgePerGender(List<Person> persons) {
+
+        if (persons == null) {
+            throw new IllegalArgumentException("persons list cannot be null");
+        }
+
+        double maleSum = 0, femaleSum = 0;
         int maleCount = 0, femaleCount = 0;
 
         for (Person person : persons) {
             if (person.gender().equals("Male")) {
-                maleAgeSum += person.age();
+                maleSum += person.age();
                 maleCount++;
             } else if (person.gender().equals("Female")) {
-                femaleAgeSum += person.age();
+                femaleSum += person.age();
                 femaleCount++;
             }
         }
 
-        return new double[]{maleAgeSum / maleCount, femaleAgeSum / femaleCount};
+        if (maleCount == 0) {
+            return new double[]{0, femaleSum / femaleCount};
+        }
+        if (femaleCount == 0) {
+            return new double[]{maleSum / maleCount, 0};
+        }
+
+        return new double[]{maleSum / maleCount, femaleSum / femaleCount};
     }
 
 }
