@@ -44,24 +44,28 @@ public class Person {
         return this.gender;
     }
 
-    /*
-     * Computes the average age of male and female persons in a list and returns the result in as array of two elements
-     * (the first element is the male mean age and the second one is the female mean age)
+    /**
+     * Computes the average age of male and female persons in a list and returns the result as an array of two elements.
+     * The first element is the mean age of males and the second one is the mean age of females.
      *
-     * @param persons
-     * @return
-     * */
+     * @param persons A list of persons to compute the average age for. It must not be null.
+     * @return An array of two elements where the first element is the mean age of males and the second one is the mean age of females.
+     * @throws IllegalArgumentException if the `persons` list is null.
+     */
 
-    public double[] averageAgePerGender(List<Person> persons) {
+    public static double[] averageAgePerGender(List<Person> persons) {
 
         if (persons == null) {
-            throw new IllegalArgumentException("persons list cannot be null");
+            throw new IllegalArgumentException("Lista de personas nula");
         }
 
         double maleSum = 0, femaleSum = 0;
         int maleCount = 0, femaleCount = 0;
 
         for (Person person : persons) {
+            if (person == null) {
+                throw new IllegalArgumentException("Hay una persona nula en la lista");
+            }
             if (person.gender().equals("Male")) {
                 maleSum += person.age();
                 maleCount++;
@@ -70,7 +74,9 @@ public class Person {
                 femaleCount++;
             }
         }
-
+        if (maleCount == 0 && femaleCount == 0) {
+            return new double[]{0, 0};
+        }
         if (maleCount == 0) {
             return new double[]{0, femaleSum / femaleCount};
         }
